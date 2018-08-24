@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {graphql, compose} from 'react-apollo';
 import {getBookQuery, deleteBookMutation, getBooksQuery} from '../queries/queries';
+import {NotificationManager} from 'react-notifications';
 
 class BookDetails extends Component {
 
@@ -22,6 +23,7 @@ class BookDetails extends Component {
                                     {query: getBookQuery}
                                 ]
                             });
+                            NotificationManager.success('The book is removed.')
                         }}
                     >X
                     </button>

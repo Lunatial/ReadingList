@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {graphql, compose} from 'react-apollo';
-import {getAuthorsQuery, addBookMutation, getBooksQuery} from '../queries/queries';
+import {getAuthorsQuery, addBookMutation, getBooksQuery, getBookQuery} from '../queries/queries';
+import {NotificationManager} from "react-notifications";
 
 class AddBook extends Component {
     constructor(props) {
@@ -39,10 +40,10 @@ class AddBook extends Component {
                 authorId: this.state.authorId
             },
             refetchQueries: [
-                {query: getBooksQuery},
-                {query: getAuthorsQuery}
-                ]
+                {query: getBooksQuery}
+            ]
         });
+        NotificationManager.success(`${this.state.name} is now in the database!`);
         this.setState({
             name: '',
             genre: '',
@@ -92,5 +93,6 @@ class AddBook extends Component {
 
 export default compose(
     graphql(getAuthorsQuery, {name: "getAuthorsQuery"}),
-    graphql(addBookMutation, {name: "addBookMutation"})
+    graphql(addBookMutation, {name: "addBookMutation"}),
+    graphql(getBookQuery, {name: "getBookQuery"})
 )(AddBook);

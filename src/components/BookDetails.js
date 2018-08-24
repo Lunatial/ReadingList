@@ -21,20 +21,25 @@ class BookDetails extends Component {
                                     {query: getBooksQuery},
                                     {query: getBookQuery}
                                 ]
-                            })
+                            });
                         }}
                     >X
                     </button>
-                    <p><strong>Author:</strong> {book.author.name}<br/>
-                        <strong>Age of the author:</strong> {book.author.age}</p>
+                    <p><strong>Author:</strong> {book.author ? book.author.name : "Unknown author"}<br/>
+                        <strong>Age of the author:</strong> {book.author ? book.author.age : "Unknown author"}</p>
                     <p><strong>Genre:</strong> {book.genre}</p>
                     <p><strong>All books by this author:</strong></p>
                     <ul className="other-books">
-                        {book.author.books.map(item => {
-                            return <li key={item.id}>{item.name}</li>
-                        })}
+                        {book.author
+                            ? book.author.books.map(item => {
+                                return <li key={item.id}>{item.name}</li>
+                            })
+                            : "Unknown author"
+                        }
                     </ul>
-                    <pre>{JSON.stringify(book, null, 4)}</pre>
+                    {/*<pre>{JSON.stringify(book, null, 4)}</pre>*/}
+                    <hr/>
+                    <pre>{JSON.stringify(this.props, null, 4)}</pre>
                 </div>
             );
         } else {
@@ -53,7 +58,7 @@ class BookDetails extends Component {
 
 export default compose(
     graphql(getBookQuery, {
-        options: (props) => {
+        options: props => {
             return {
                 variables: {
                     id: props.bookId

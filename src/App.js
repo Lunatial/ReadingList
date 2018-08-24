@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from 'react-apollo';
+import {ApolloProvider} from 'react-apollo';
+import 'react-notifications/lib/notifications.css';
+import {NotificationContainer,} from 'react-notifications';
 
 // components
 import BookList from './components/BookList';
@@ -17,13 +19,15 @@ class App extends Component {
         return (
             <ApolloProvider client={client}>
                 <div id="main">
-                    <h1>Mirkó's Reading List</h1>
-                    <BookList />
-                    <AddBook />
-                    <AddAuthor />
+                    <h1>One's Reading List</h1>
+                    <BookList/>
+                    <AddBook/>
+                    <AddAuthor/>
+                    <NotificationContainer/>
                 </div>
             </ApolloProvider>
         );
     }
 }
+
 export default App;

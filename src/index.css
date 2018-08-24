@@ -86,7 +86,7 @@ body {
     width: 400px;
 }
 
-#add-author button {
+#add-btn {
     color: #fff;
     font-size: 2em;
     background: #AD1457;
@@ -96,6 +96,19 @@ body {
     cursor: pointer;
     position: absolute;
     top: 10px;
+    left: 10px;
+}
+
+#rmv-btn {
+    color: #AD1457;
+    font-size: 2em;
+    background: #fff;
+    border: 0;
+    padding: 0 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: absolute;
+    top: 120px;
     left: 10px;
 }
 

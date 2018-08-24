@@ -13,19 +13,32 @@ class BookList extends Component {
         }
     }
 
+    compare = (a, b) => {
+        const nameA = a.name.toUpperCase();
+        const nameB = b.name.toUpperCase();
+
+        let comparison = 0;
+        if (nameA > nameB) {
+            comparison = 1;
+        } else if (nameA < nameB) {
+            comparison = -1;
+        }
+        return comparison;
+    };
+
     displayBooks() {
         const data = this.props.data;
         if (data.loading) {
             return (<div>Loading books...</div>);
         } else {
-            return data.books.map(book => {
+            let myObject = Object.assign([], data.books);
+            myObject.sort(this.compare);
+            return myObject.map(book => {
                 return (
                     <li key={book.id}
-                        onClick={(event) => {
-                            this.setState({selected: book.id});
-                        }}
+                        onClick={() => this.setState({selected: book.id})}
                         style={{
-                            backgroundColor: this.state.selected === book.id ? "pink" : ""
+                            backgroundColor: this.state.selected === book.id ? "#B0E0E6" : ""
                         }}
                     >
                         {book.name}

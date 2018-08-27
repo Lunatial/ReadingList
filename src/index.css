@@ -66,7 +66,7 @@ body {
     box-sizing: border-box;
 }
 
-#add-book button {
+#add-book-btn {
     color: #fff;
     font-size: 2em;
     background: #AD1457;
@@ -86,7 +86,7 @@ body {
     width: 400px;
 }
 
-#add-btn {
+#add-author-btn {
     color: #fff;
     font-size: 2em;
     background: #AD1457;
@@ -99,7 +99,7 @@ body {
     left: 10px;
 }
 
-#rmv-btn {
+#rmv-author-btn {
     color: #AD1457;
     font-size: 2em;
     background: #fff;

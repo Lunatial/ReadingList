@@ -135,12 +135,12 @@ class AddAuthor extends Component {
                 </div>
 
                 <button
-                    id="add-btn"
+                    id="add-author-btn"
                     onClick={this.addAuthor}
                 >+
                 </button>
                 <button
-                    id="rmv-btn"
+                    id="rmv-author-btn"
                     onClick={this.removeAuthor}
                 >-
                 </button>

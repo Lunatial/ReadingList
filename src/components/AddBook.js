@@ -23,18 +23,35 @@ class AddBook extends Component {
         if (data.loading) {
             return (<option disabled>Loading authors</option>);
         } else {
-            return data.authors.map(author => {
+            let myObject = Object.assign([], data.authors);
+            myObject.sort(this.compare);
+            return myObject.map(author => {
                 return (<option key={author.id} value={author.id}>{author.name}</option>);
             });
         }
     }
+
+    compare = (a, b) => {
+        const nameA = a.name.toUpperCase();
+        const nameB = b.name.toUpperCase();
+
+        let comparison = 0;
+        if (nameA > nameB) {
+            comparison = 1;
+        } else if (nameA < nameB) {
+            comparison = -1;
+        }
+        return comparison;
+    };
 
     displayBooks() {
         let data = this.props.getBooksQuery;
         if (data.loading) {
             return (<option disabled>Loading books</option>);
         } else {
-            return data.books.map(book => {
+            let myObject = Object.assign([], data.books);
+            myObject.sort(this.compare);
+            return myObject.map(book => {
                 return (<option key={book.id} value={book.id}>{book.name}</option>);
             });
         }
@@ -58,9 +75,7 @@ class AddBook extends Component {
                     genre: this.state.genre,
                     authorId: this.state.authorId
                 },
-                refetchQueries: [
-                    {query: getBooksQuery}
-                ]
+                refetchQueries: [{query: getBooksQuery}]
             });
             NotificationManager.success(`${this.state.name} is now in the database!`);
             this.setState({

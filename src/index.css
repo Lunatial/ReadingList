@@ -30,6 +30,10 @@ body {
     color: #880E4F;
 }
 
+#book-list li:hover {
+    transform: scale(1.1);
+}
+
 #add-book {
     background: #fff;
     padding: 20px;

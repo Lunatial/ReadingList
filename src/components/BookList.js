@@ -40,6 +40,16 @@ class BookList extends Component {
         return comparison;
     };
 
+    bookListItem = (book) =>
+        <li key={book.id}
+            onClick={() => this.setState({selected: book.id})}
+            style={{
+                backgroundColor: this.state.selected === book.id ? "#B0E0E6" : ""
+            }}
+        >
+            {book.name}
+        </li>;
+
     displayBooks() {
         const data = this.props.data;
         if (data.loading) {
@@ -50,14 +60,7 @@ class BookList extends Component {
                 myObject.sort(this.compare);
                 return myObject.map(book => {
                     return (
-                        <li key={book.id}
-                            onClick={() => this.setState({selected: book.id})}
-                            style={{
-                                backgroundColor: this.state.selected === book.id ? "#B0E0E6" : ""
-                            }}
-                        >
-                            {book.name}
-                        </li>
+                        this.bookListItem(book)
                     );
                 })
             } else {
@@ -65,14 +68,7 @@ class BookList extends Component {
                 myObject.sort(this.compareBack);
                 return myObject.map(book => {
                     return (
-                        <li key={book.id}
-                            onClick={() => this.setState({selected: book.id})}
-                            style={{
-                                backgroundColor: this.state.selected === book.id ? "#B0E0E6" : ""
-                            }}
-                        >
-                            {book.name}
-                        </li>
+                        this.bookListItem(book)
                     );
                 })
             }

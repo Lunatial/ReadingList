@@ -39,6 +39,32 @@ body {
     width: 400px;
 }
 
+#a-z {
+    color: #fff;
+    font-size: 1.15em;
+    background: #AD1457;
+    border: 0;
+    padding: 0 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    position: absolute;
+    top: 30px;
+    left: 20px;
+}
+
+#z-a {
+    color: #fff;
+    font-size: 1.15em;
+    background: #AD1457;
+    border: 0;
+    padding: 0 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    position: absolute;
+    top: 30px;
+    left: 90px;
+}
+
 #add-author {
     background: #fff;
     padding: 20px;

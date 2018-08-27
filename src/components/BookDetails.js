@@ -20,7 +20,6 @@ class BookDetails extends Component {
                                 },
                                 refetchQueries: [
                                     {query: getBooksQuery},
-                                    {query: getBookQuery}
                                 ]
                             });
                             NotificationManager.success('The book is removed.')
@@ -32,11 +31,12 @@ class BookDetails extends Component {
                     <p><strong>Genre:</strong> {book.genre}</p>
                     <p><strong>All books by this author:</strong></p>
                     <ul className="other-books">
-                        {book.author
+                        {
+                            book.author
                             ? book.author.books.map(item => {
                                 return <li key={item.id}>{item.name}</li>
                             })
-                            : "Unknown author"
+                            : <li>Unknown author</li>
                         }
                     </ul>
                     {/*<pre>{JSON.stringify(book, null, 4)}</pre>*/}

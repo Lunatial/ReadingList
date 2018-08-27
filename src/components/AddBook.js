@@ -91,7 +91,10 @@ class AddBook extends Component {
                     name: this.state.name,
                     genre: this.state.genre
                 },
-                refetchQueries: [{query: getBooksQuery}]
+                refetchQueries: [
+                    {query: getBooksQuery},
+                    {query: getBookQuery},
+                ]
             });
             NotificationManager.success('Successful upgrade!');
         }
@@ -164,7 +167,12 @@ class AddBook extends Component {
 export default compose(
     graphql(getAuthorsQuery, {name: "getAuthorsQuery"}),
     graphql(addBookMutation, {name: "addBookMutation"}),
-    graphql(updateBookMutation, {name: "updateBookMutation"}),
+    graphql(updateBookMutation, {
+        name: "updateBookMutation",
+        options: {
+            refetchQueries: ['getBookQuery']
+        }
+    }),
     graphql(getBookQuery, {name: "getBookQuery"}),
     graphql(getBooksQuery, {name: "getBooksQuery"})
 )(AddBook);

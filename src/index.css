@@ -1,6 +1,5 @@
 body {
     background: #eee;
-    font-family: 'Nunito SemiBold';
 }
 
 #main h1 {
@@ -40,7 +39,7 @@ body {
     position: fixed;
     left: 0;
     bottom: 0;
-    width: 400px;
+    width: 500px;
 }
 
 #a-z {
@@ -96,6 +95,15 @@ body {
     box-sizing: border-box;
 }
 
+.css-1aya2g8 {
+
+}
+
+.css-1rtrksz,
+.css-1wy0on6 {
+    background-color: white;
+}
+
 #add-book-btn {
     color: #fff;
     font-size: 2em;
@@ -113,7 +121,7 @@ body {
     background: #fff;
     padding: 20px;
     position: fixed;
-    width: 400px;
+    width: 500px;
 }
 
 #add-author-btn {

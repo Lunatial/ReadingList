@@ -154,6 +154,7 @@ class AddBook extends Component {
                         {this.displayBooks()}
                     </select>
                 </div>
+
                 <button
                     id="add-book-btn"
                     onClick={this.addBook}

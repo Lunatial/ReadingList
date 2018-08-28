@@ -8,6 +8,8 @@ import {
 } from '../queries/queries';
 import {NotificationManager,} from 'react-notifications';
 
+import Select from 'react-select';
+
 class AddAuthor extends Component {
     constructor(props) {
         super(props);
@@ -147,6 +149,32 @@ class AddAuthor extends Component {
                         <option value="">Select author</option>
                         {this.displayAuthors()}
                     </select>
+                </div>
+
+                <div
+                    className="field"
+                >
+                    <label>Author:</label>
+                    <Select
+                        options={
+                            this.props.getAuthorsQuery.authors
+                            && this.props.getAuthorsQuery.authors.map(author => ({
+                                label: author.name,
+                                value: author.id
+                            }))}
+                        placeholder="Select author"
+                        isClearable
+                        theme={(theme) => ({
+                            ...theme,
+                            borderRadius: 0,
+                            colors: {
+                                ...theme.colors,
+                                text: 'orangered',
+                                primary25: 'hotpink',
+                                primary: 'black',
+                            },
+                        })}
+                    />
                 </div>
 
                 <button

@@ -29,14 +29,18 @@ class BookDetails extends Component {
                     <p><strong>Author:</strong> {book.author ? book.author.name : "Unknown author"}<br/>
                         <strong>Age of the author:</strong> {book.author ? book.author.age : "Unknown author"}</p>
                     <p><strong>Genre:</strong> {book.genre}</p>
+                    <p><strong>ISBN:</strong> {book.isbn}</p>
+                    <div>
+                        {this.props.coverURL && <img src={this.props.coverURL} alt={book.name}/>}
+                    </div>
                     <p><strong>All books by this author:</strong></p>
                     <ul className="other-books">
                         {
                             book.author
-                            ? book.author.books.map(item => {
-                                return <li key={item.id}>{item.name}</li>
-                            })
-                            : <li>Unknown author</li>
+                                ? book.author.books.map(item => {
+                                    return <li key={item.id}>{item.name}</li>
+                                })
+                                : <li>Unknown author</li>
                         }
                     </ul>
                     {/*<pre>{JSON.stringify(book, null, 4)}</pre>*/}

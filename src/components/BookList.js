@@ -4,13 +4,16 @@ import {getBooksQuery,} from '../queries/queries';
 
 // components
 import BookDetails from './BookDetails';
+import axios from "axios/index";
 
 class BookList extends Component {
     constructor(props) {
         super(props);
         this.state = {
             selected: null,
-            alphabeticOrder: "a-z"
+            alphabeticOrder: "a-z",
+            selectedISBN: "",
+            coverURL: "",
         }
     }
 
@@ -40,9 +43,25 @@ class BookList extends Component {
         return comparison;
     };
 
-    bookListItem = (book) =>
+    bookListItem = book =>
         <li key={book.id}
-            onClick={() => this.setState({selected: book.id})}
+            onClick={() =>
+                axios.get(`https://www.googleapis.com/books/v1/volumes?q=${book.name}`)
+                    .then(response => {
+                        // handle success
+                        console.log(response);
+
+                        this.setState({
+                            coverURL: response.data.items && response.data.items[0].volumeInfo.imageLinks.thumbnail,
+                            selected: book.id,
+                            selectedISBN: book.isbn
+                        })
+                    })
+                    .catch(error => {
+                        // handle error
+                        console.log(error);
+                    })
+            }
             style={{
                 backgroundColor: this.state.selected === book.id ? "#B0E0E6" : ""
             }}
@@ -85,7 +104,11 @@ class BookList extends Component {
                 <ul id="book-list">
                     {this.displayBooks()}
                 </ul>
-                {showSideBar && <BookDetails bookId={this.state.selected}/>}
+                {showSideBar && <BookDetails
+                    bookId={this.state.selected}
+                    bookISBN={this.state.selectedISBN}
+                    coverURL={this.state.coverURL !== '' && this.state.coverURL}
+                />}
             </div>
         );
     }

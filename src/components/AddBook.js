@@ -10,7 +10,8 @@ class AddBook extends Component {
             name: '',
             genre: '',
             authorId: '',
-            bookId: ''
+            bookId: '',
+            isbn: ''
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -73,6 +74,7 @@ class AddBook extends Component {
                 variables: {
                     name: this.state.name,
                     genre: this.state.genre,
+                    isbn: this.state.isbn,
                     authorId: this.state.authorId
                 },
                 refetchQueries: [{query: getBooksQuery}]
@@ -81,6 +83,7 @@ class AddBook extends Component {
             this.setState({
                 name: '',
                 genre: '',
+                isbn: '',
                 authorId: ''
             })
         } else {
@@ -89,6 +92,7 @@ class AddBook extends Component {
                     id: this.state.bookId,
                     authorId: this.state.authorId,
                     name: this.state.name,
+                    isbn: this.state.isbn,
                     genre: this.state.genre
                 },
                 refetchQueries: [
@@ -106,6 +110,7 @@ class AddBook extends Component {
             [e.target.name]: e.target.value,
             name: e.target.value !== '' ? data.books.find(book => book.id === e.target.value).name : '',
             genre: e.target.value !== '' ? data.books.find(book => book.id === e.target.value).genre : '',
+            isbn: e.target.value !== '' ? data.books.find(book => book.id === e.target.value).isbn : '',
             authorId: e.target.value !== '' ? data.books.find(book => book.id === e.target.value).author.id : '',
         });
     }
@@ -128,6 +133,15 @@ class AddBook extends Component {
                         type="text"
                         name="genre"
                         value={this.state.genre}
+                        onChange={this.handleChange}
+                    />
+                </div>
+                <div className="field">
+                    <label>ISBN:</label>
+                    <input
+                        type="text"
+                        name="isbn"
+                        value={this.state.isbn}
                         onChange={this.handleChange}
                     />
                 </div>

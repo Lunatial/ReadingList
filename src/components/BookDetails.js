@@ -37,7 +37,7 @@ class BookDetails extends Component {
                     <p>
                         <strong>Author:</strong> {book.author ? book.author.name : "Unknown author"}<br/>
                         <strong>Age of the author:</strong> {book.author ? book.author.age : "Unknown author"}</p>
-                    <p><strong>Genre:</strong> {book.genre}</p>
+                    <p><strong>Genre:</strong> {book.genre ? book.genre : "Unknown genre"}</p>
                     {
                         this.props.coverURL &&
                         <div style={{textAlign: "center"}}>
@@ -100,7 +100,12 @@ class BookDetails extends Component {
                             {
                                 book.author
                                     ? book.author.books.map(item => {
-                                        return <li key={item.id}>{item.name}</li>
+                                        return (
+                                            <li
+                                                key={item.id}
+                                                // onClick={this.props.showAuthorsOtherBook(book.id)}
+                                            >{item.name}</li>
+                                        )
                                     })
                                     : <li>Unknown author</li>
                             }

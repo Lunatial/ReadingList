@@ -120,6 +120,10 @@ class BookList extends Component {
         }
     }
 
+    showAuthorsOtherBook(bookId) {
+        this.setState({selected: bookId})
+    }
+
     render() {
         const showSideBar = this.props.data.books
             && this.props.data.books.findIndex(book => book.id === this.state.selected) !== -1;
@@ -137,6 +141,7 @@ class BookList extends Component {
                         bookISBN={this.state.selectedISBN}
                         coverURL={this.state.coverURL !== '' && this.state.coverURL}
                         bookData={this.state.bookData !== [] && this.state.bookData}
+                        showAuthorsOtherBook={this.showAuthorsOtherBook}
                     />
                 </ErrorBoundary>
                 }

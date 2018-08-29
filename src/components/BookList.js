@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import {graphql,} from 'react-apollo';
 import {getBooksQuery,} from '../queries/queries';
+import ErrorBoundary from './errorBoundary/ErrorBoundary'
+
+import {CircleLoader} from 'react-spinners'
 
 // components
 import BookDetails from './BookDetails';
@@ -14,6 +17,7 @@ class BookList extends Component {
             alphabeticOrder: "a-z",
             selectedISBN: "",
             coverURL: "",
+            bookData: []
         }
     }
 
@@ -48,13 +52,23 @@ class BookList extends Component {
             onClick={() =>
                 axios.get(`https://www.googleapis.com/books/v1/volumes?q=${book.name}`)
                     .then(response => {
+                        this.setState({
+                            coverURL: '',
+                            selected: '',
+                            selectedISBN: '',
+                            bookData: ''
+                        });
+                        return response;
+                    })
+                    .then(response => {
                         // handle success
-                        console.log(response);
+                        console.log(response.data.items && response.data.items[0].volumeInfo);
 
                         this.setState({
                             coverURL: response.data.items && response.data.items[0].volumeInfo.imageLinks.thumbnail,
                             selected: book.id,
-                            selectedISBN: book.isbn
+                            selectedISBN: book.isbn,
+                            bookData: response.data.items && response.data.items[0]
                         })
                     })
                     .catch(error => {
@@ -72,7 +86,19 @@ class BookList extends Component {
     displayBooks() {
         const data = this.props.data;
         if (data.loading) {
-            return (<div>Loading books...</div>);
+            return (
+                <div style={{
+                    display: "flex",
+                    justifyContent: "center"
+                }}>
+                    <CircleLoader
+                        style={{margin: "auto"}}
+                        sizeUnit={"px"}
+                        size={50}
+                        color={'black'}
+                    />
+                </div>
+            )
         } else {
             if (this.state.alphabeticOrder === "a-z") {
                 let myObject = Object.assign([], data.books);
@@ -104,11 +130,16 @@ class BookList extends Component {
                 <ul id="book-list">
                     {this.displayBooks()}
                 </ul>
-                {showSideBar && <BookDetails
-                    bookId={this.state.selected}
-                    bookISBN={this.state.selectedISBN}
-                    coverURL={this.state.coverURL !== '' && this.state.coverURL}
-                />}
+                {showSideBar &&
+                <ErrorBoundary>
+                    <BookDetails
+                        bookId={this.state.selected}
+                        bookISBN={this.state.selectedISBN}
+                        coverURL={this.state.coverURL !== '' && this.state.coverURL}
+                        bookData={this.state.bookData !== [] && this.state.bookData}
+                    />
+                </ErrorBoundary>
+                }
             </div>
         );
     }

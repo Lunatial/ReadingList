@@ -110,7 +110,7 @@ class AddBook extends Component {
             [e.target.name]: e.target.value,
             name: e.target.value !== '' ? data.books.find(book => book.id === e.target.value).name : '',
             genre: e.target.value !== '' ? data.books.find(book => book.id === e.target.value).genre : '',
-            isbn: e.target.value !== '' ? data.books.find(book => book.id === e.target.value).isbn : '',
+            isbn: e.target.value !== '' ? (data.books.find(book => book.id === e.target.value).isbn !== null && data.books.find(book => book.id === e.target.value).isbn) : '',
             authorId: e.target.value !== '' ? data.books.find(book => book.id === e.target.value).author.id : '',
         });
     }
@@ -141,7 +141,7 @@ class AddBook extends Component {
                     <input
                         type="text"
                         name="isbn"
-                        value={this.state.isbn}
+                        value={this.state.isbn === false ? "" : this.state.isbn}
                         onChange={this.handleChange}
                     />
                 </div>

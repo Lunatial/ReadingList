@@ -26,7 +26,7 @@ const getBooksQuery = gql`
 `;
 
 const addBookMutation = gql`
-    mutation AddBook($name: String!, $genre: String!, $isbn: String, $authorId: ID!){
+    mutation AddBook($name: String!, $genre: String!, $isbn: String!, $authorId: ID!){
         addBook(name: $name, genre: $genre, isbn: $isbn , authorId: $authorId){
             name
             genre

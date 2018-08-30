@@ -70,37 +70,47 @@ class AddBook extends Component {
                 NotificationManager.warning('Book already exists ...');
                 return
             }
-            this.props.addBookMutation({
-                variables: {
-                    name: this.state.name,
-                    genre: this.state.genre,
-                    isbn: this.state.isbn,
-                    authorId: this.state.authorId
-                },
-                refetchQueries: [{query: getBooksQuery}]
-            });
-            NotificationManager.success(`${this.state.name} is now in the database!`);
-            this.setState({
-                name: '',
-                genre: '',
-                isbn: '',
-                authorId: ''
-            })
+            try {
+                this.props.addBookMutation({
+                    variables: {
+                        name: this.state.name,
+                        genre: this.state.genre,
+                        isbn: this.state.isbn,
+                        authorId: this.state.authorId
+                    },
+                    refetchQueries: [{query: getBooksQuery}]
+                });
+                NotificationManager.success(`${this.state.name} is now in the database!`);
+                this.setState({
+                    name: '',
+                    genre: '',
+                    isbn: '',
+                    authorId: ''
+                })
+            }
+            catch (err) {
+                NotificationManager.error(`${err}`)
+            }
         } else {
-            this.props.updateBookMutation({
-                variables: {
-                    id: this.state.bookId,
-                    authorId: this.state.authorId,
-                    name: this.state.name,
-                    isbn: this.state.isbn,
-                    genre: this.state.genre
-                },
-                refetchQueries: [
-                    {query: getBooksQuery},
-                    {query: getBookQuery},
-                ]
-            });
-            NotificationManager.success('Successful upgrade!');
+            try {
+                this.props.updateBookMutation({
+                    variables: {
+                        id: this.state.bookId,
+                        authorId: this.state.authorId,
+                        name: this.state.name,
+                        isbn: this.state.isbn,
+                        genre: this.state.genre
+                    },
+                    refetchQueries: [
+                        {query: getBooksQuery},
+                        {query: getBookQuery},
+                    ]
+                })
+            }
+            catch (err) {
+                NotificationManager.error(`${err}`)
+            }
+            NotificationManager.success('Successful upgrade!')
         }
     }
 

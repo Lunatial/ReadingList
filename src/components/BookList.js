@@ -47,35 +47,35 @@ class BookList extends Component {
         return comparison;
     };
 
+    getBooksApi(book) {
+        axios.get(`https://www.googleapis.com/books/v1/volumes?q=${book.name}`)
+            .then(response => {
+                this.setState({
+                    coverURL: '',
+                    selected: '',
+                    selectedISBN: '',
+                    bookData: ''
+                });
+                return response;
+            })
+            .then(response => {
+                // handle success
+                this.setState({
+                    coverURL: response.data.items && response.data.items[0].volumeInfo.imageLinks.thumbnail,
+                    selected: book.id,
+                    selectedISBN: book.isbn,
+                    bookData: response.data.items && response.data.items[0]
+                })
+            })
+            .catch(error => {
+                // handle error
+                console.log(error);
+            })
+    }
+
     bookListItem = book =>
         <li key={book.id}
-            onClick={() =>
-                axios.get(`https://www.googleapis.com/books/v1/volumes?q=${book.name}`)
-                    .then(response => {
-                        this.setState({
-                            coverURL: '',
-                            selected: '',
-                            selectedISBN: '',
-                            bookData: ''
-                        });
-                        return response;
-                    })
-                    .then(response => {
-                        // handle success
-                        console.log(response.data.items && response.data.items[0].volumeInfo);
-
-                        this.setState({
-                            coverURL: response.data.items && response.data.items[0].volumeInfo.imageLinks.thumbnail,
-                            selected: book.id,
-                            selectedISBN: book.isbn,
-                            bookData: response.data.items && response.data.items[0]
-                        })
-                    })
-                    .catch(error => {
-                        // handle error
-                        console.log(error);
-                    })
-            }
+            onClick={() => this.getBooksApi(book)}
             style={{
                 backgroundColor: this.state.selected === book.id ? "#B0E0E6" : ""
             }}
@@ -122,6 +122,8 @@ class BookList extends Component {
 
     showAuthorsOtherBook(bookId) {
         this.state.selected !== bookId && this.setState({selected: bookId});
+        let book = this.props.data.books.find(book => book.id === bookId);
+        this.getBooksApi(book);
     }
 
     render() {

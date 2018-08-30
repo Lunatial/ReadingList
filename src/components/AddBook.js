@@ -13,13 +13,9 @@ class AddBook extends Component {
             bookId: '',
             isbn: ''
         };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.addBook = this.addBook.bind(this);
-        this.bookChange = this.bookChange.bind(this);
     }
 
-    displayAuthors() {
+    displayAuthors = () => {
         let data = this.props.getAuthorsQuery;
         if (data.loading) {
             return (<option disabled>Loading authors</option>);
@@ -45,7 +41,7 @@ class AddBook extends Component {
         return comparison;
     };
 
-    displayBooks() {
+    displayBooks = () => {
         let data = this.props.getBooksQuery;
         if (data.loading) {
             return (<option disabled>Loading books</option>);
@@ -58,11 +54,11 @@ class AddBook extends Component {
         }
     }
 
-    handleChange(e) {
+    handleChange = e => {
         this.setState({[e.target.name]: e.target.value})
     }
 
-    addBook(e) {
+    addBook = e => {
         let data = this.props.getBooksQuery;
         e.preventDefault();
         if (this.state.bookId === '') {
@@ -78,7 +74,10 @@ class AddBook extends Component {
                         isbn: this.state.isbn,
                         authorId: this.state.authorId
                     },
-                    refetchQueries: [{query: getBooksQuery}]
+                    refetchQueries: [
+                        {query: getBooksQuery},
+                        {query: getBookQuery}
+                    ]
                 });
                 NotificationManager.success(`${this.state.name} is now in the database!`);
                 this.setState({
@@ -114,7 +113,7 @@ class AddBook extends Component {
         }
     }
 
-    bookChange(e) {
+    bookChange = e => {
         let data = this.props.getBooksQuery;
         this.setState({
             [e.target.name]: e.target.value,
@@ -190,7 +189,12 @@ class AddBook extends Component {
 
 export default compose(
     graphql(getAuthorsQuery, {name: "getAuthorsQuery"}),
-    graphql(addBookMutation, {name: "addBookMutation"}),
+    graphql(addBookMutation, {
+        name: "addBookMutation",
+        options: {
+            refetchQueries: ['getBookQuery', 'getBooksQuery']
+        }
+    }),
     graphql(updateBookMutation, {
         name: "updateBookMutation",
         options: {

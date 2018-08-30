@@ -47,7 +47,7 @@ class BookList extends Component {
         return comparison;
     };
 
-    getBooksApi(book) {
+    getBooksApi = book => {
         axios.get(`https://www.googleapis.com/books/v1/volumes?q=${book.name}`)
             .then(response => {
                 this.setState({
@@ -83,7 +83,7 @@ class BookList extends Component {
             {book.name}
         </li>;
 
-    displayBooks() {
+    displayBooks = () => {
         const data = this.props.data;
         if (data.loading) {
             return (
@@ -120,7 +120,7 @@ class BookList extends Component {
         }
     }
 
-    showAuthorsOtherBook(bookId) {
+    showAuthorsOtherBook = bookId => {
         this.state.selected !== bookId && this.setState({selected: bookId});
         let book = this.props.data.books.find(book => book.id === bookId);
         this.getBooksApi(book);
@@ -143,7 +143,7 @@ class BookList extends Component {
                         bookISBN={this.state.selectedISBN}
                         coverURL={this.state.coverURL !== '' && this.state.coverURL}
                         bookData={this.state.bookData !== [] && this.state.bookData}
-                        showAuthorsOtherBook={this.showAuthorsOtherBook.bind(this)}
+                        showAuthorsOtherBook={this.showAuthorsOtherBook}
                     />
                 </ErrorBoundary>
                 }

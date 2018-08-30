@@ -7,7 +7,7 @@ import {CircleLoader} from 'react-spinners'
 
 class BookDetails extends Component {
 
-    displayBookDetails() {
+    displayBookDetails = () => {
         const {book} = this.props.data;
         const {bookData} = this.props;
         if (book) {

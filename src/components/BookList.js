@@ -121,7 +121,7 @@ class BookList extends Component {
     }
 
     showAuthorsOtherBook(bookId) {
-        this.setState({selected: bookId})
+        this.state.selected !== bookId && this.setState({selected: bookId});
     }
 
     render() {
@@ -141,7 +141,7 @@ class BookList extends Component {
                         bookISBN={this.state.selectedISBN}
                         coverURL={this.state.coverURL !== '' && this.state.coverURL}
                         bookData={this.state.bookData !== [] && this.state.bookData}
-                        showAuthorsOtherBook={this.showAuthorsOtherBook}
+                        showAuthorsOtherBook={this.showAuthorsOtherBook.bind(this)}
                     />
                 </ErrorBoundary>
                 }

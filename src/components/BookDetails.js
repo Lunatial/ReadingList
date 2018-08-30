@@ -103,7 +103,7 @@ class BookDetails extends Component {
                                         return (
                                             <li
                                                 key={item.id}
-                                                // onClick={this.props.showAuthorsOtherBook(book.id)}
+                                                onClick={() => this.props.showAuthorsOtherBook(item.id)}
                                             >{item.name}</li>
                                         )
                                     })

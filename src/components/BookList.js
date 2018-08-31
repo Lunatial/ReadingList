@@ -2,12 +2,11 @@ import React, {Component} from 'react';
 import {graphql,} from 'react-apollo';
 import {getBooksQuery,} from '../queries/queries';
 import ErrorBoundary from './errorBoundary/ErrorBoundary'
-
+import axios from "axios/index";
 import {CircleLoader} from 'react-spinners'
 
 // components
 import BookDetails from './BookDetails';
-import axios from "axios/index";
 
 class BookList extends Component {
     constructor(props) {
@@ -61,7 +60,7 @@ class BookList extends Component {
             .then(response => {
                 // handle success
                 this.setState({
-                    coverURL: response.data.items && response.data.items[0].volumeInfo.imageLinks.thumbnail,
+                    coverURL: response.data.items && response.data.items[0].volumeInfo.imageLinks && response.data.items[0].volumeInfo.imageLinks.thumbnail,
                     selected: book.id,
                     selectedISBN: book.isbn,
                     bookData: response.data.items && response.data.items[0]

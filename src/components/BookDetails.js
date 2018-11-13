@@ -102,13 +102,12 @@ class BookDetails extends Component {
                                     ? book.author.books.map(item => {
                                         return (
                                             <li key={item.id}>
-                                                <a
-                                                    href="#"
+                                                <p
                                                     onClick={() => this.props.showAuthorsOtherBook(item.id)}
-                                                    style={{color: "white"}}
+                                                    style={{color: "white", cursor: 'pointer', textDecoration: "underline"}}
                                                 >
                                                     {item.name}
-                                                </a>
+                                                </p>
                                             </li>
                                         )
                                     })

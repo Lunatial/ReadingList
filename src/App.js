@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import ApolloClient from 'apollo-boost';
 import {ApolloProvider} from 'react-apollo';
 import 'react-notifications/lib/notifications.css';
-import {NotificationContainer,} from 'react-notifications';
+import {NotificationContainer} from 'react-notifications';
 
 // components
 import BookList from './components/BookList';

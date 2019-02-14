@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import {graphql,} from 'react-apollo';
-import {getBooksQuery,} from '../queries/queries';
-import ErrorBoundary from './errorBoundary/ErrorBoundary'
+import {graphql} from 'react-apollo';
 import axios from "axios/index";
-import {CircleLoader} from 'react-spinners'
+import {CircleLoader} from 'react-spinners';
 
-// components
+import {getBooksQuery} from '../queries/queries';
+import ErrorBoundary from './errorBoundary/ErrorBoundary';
+import {compare, compareBack} from '../common';
 import BookDetails from './BookDetails';
 
 class BookList extends Component {
@@ -20,32 +20,6 @@ class BookList extends Component {
         }
     }
 
-    compare = (a, b) => {
-        const nameA = a.name.toUpperCase();
-        const nameB = b.name.toUpperCase();
-
-        let comparison = 0;
-        if (nameA > nameB) {
-            comparison = 1;
-        } else if (nameA < nameB) {
-            comparison = -1;
-        }
-        return comparison;
-    };
-
-    compareBack = (a, b) => {
-        const nameA = a.name.toUpperCase();
-        const nameB = b.name.toUpperCase();
-
-        let comparison = 0;
-        if (nameA > nameB) {
-            comparison = -1;
-        } else if (nameA < nameB) {
-            comparison = 1;
-        }
-        return comparison;
-    };
-
     getBooksApi = book => {
         axios.get(`https://www.googleapis.com/books/v1/volumes?q=${book.name}`)
             .then(response => {
@@ -59,11 +33,12 @@ class BookList extends Component {
             })
             .then(response => {
                 // handle success
+                const {items} = response.data;
                 this.setState({
-                    coverURL: response.data.items && response.data.items[0].volumeInfo.imageLinks && response.data.items[0].volumeInfo.imageLinks.thumbnail,
+                    coverURL: items && items[0].volumeInfo.imageLinks && items[0].volumeInfo.imageLinks.thumbnail,
                     selected: book.id,
                     selectedISBN: book.isbn,
-                    bookData: response.data.items && response.data.items[0]
+                    bookData: items && items[0]
                 })
             })
             .catch(error => {
@@ -98,25 +73,14 @@ class BookList extends Component {
                     />
                 </div>
             )
-        } else {
-            if (this.state.alphabeticOrder === "a-z") {
-                let myObject = Object.assign([], data.books);
-                myObject.sort(this.compare);
-                return myObject.map(book => {
-                    return (
-                        this.bookListItem(book)
-                    );
-                })
-            } else {
-                let myObject = Object.assign([], data.books);
-                myObject.sort(this.compareBack);
-                return myObject.map(book => {
-                    return (
-                        this.bookListItem(book)
-                    );
-                })
-            }
         }
+        let myObject = Object.assign([], data.books);
+        myObject.sort(this.state.alphabeticOrder === "a-z" ? compare : compareBack);
+        return myObject.map(book => {
+            return (
+                this.bookListItem(book)
+            );
+        })
     }
 
     showAuthorsOtherBook = bookId => {

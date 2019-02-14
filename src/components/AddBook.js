@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {graphql, compose} from 'react-apollo';
-import {getAuthorsQuery, addBookMutation, getBooksQuery, getBookQuery, updateBookMutation} from '../queries/queries';
 import {NotificationManager} from "react-notifications";
+
+import {getAuthorsQuery, addBookMutation, getBooksQuery, getBookQuery, updateBookMutation} from '../queries/queries';
+import {compare} from '../common'
 
 class AddBook extends Component {
     constructor(props) {
@@ -21,25 +23,12 @@ class AddBook extends Component {
             return (<option disabled>Loading authors</option>);
         } else {
             let myObject = Object.assign([], data.authors);
-            myObject.sort(this.compare);
+            myObject.sort(compare);
             return myObject.map(author => {
                 return (<option key={author.id} value={author.id}>{author.name}</option>);
             });
         }
     }
-
-    compare = (a, b) => {
-        const nameA = a.name.toUpperCase();
-        const nameB = b.name.toUpperCase();
-
-        let comparison = 0;
-        if (nameA > nameB) {
-            comparison = 1;
-        } else if (nameA < nameB) {
-            comparison = -1;
-        }
-        return comparison;
-    };
 
     displayBooks = () => {
         let data = this.props.getBooksQuery;
@@ -47,7 +36,7 @@ class AddBook extends Component {
             return (<option disabled>Loading books</option>);
         } else {
             let myObject = Object.assign([], data.books);
-            myObject.sort(this.compare);
+            myObject.sort(compare);
             return myObject.map(book => {
                 return (<option key={book.id} value={book.id}>{book.name}</option>);
             });
@@ -114,13 +103,14 @@ class AddBook extends Component {
     }
 
     bookChange = e => {
-        let data = this.props.getBooksQuery;
+        const {books} = this.props.getBooksQuery;
+        const {name, value} = e.target;
         this.setState({
-            [e.target.name]: e.target.value,
-            name: e.target.value !== '' ? data.books.find(book => book.id === e.target.value).name : '',
-            genre: e.target.value !== '' ? data.books.find(book => book.id === e.target.value).genre : '',
-            isbn: e.target.value !== '' ? (data.books.find(book => book.id === e.target.value).isbn !== null && data.books.find(book => book.id === e.target.value).isbn) : '',
-            authorId: e.target.value !== '' ? data.books.find(book => book.id === e.target.value).author.id : '',
+            [name]: value,
+            name: value !== '' ? books.find(book => book.id === value).name : '',
+            genre: value !== '' ? books.find(book => book.id === value).genre : '',
+            isbn: value !== '' ? (books.find(book => book.id === value).isbn !== null && books.find(book => book.id === value).isbn) : '',
+            authorId: value !== '' ? books.find(book => book.id === value).author.id : '',
         });
     }
 

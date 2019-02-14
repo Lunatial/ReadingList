@@ -1,12 +1,14 @@
 import React, {Component} from 'react';
 import {graphql, compose} from 'react-apollo';
+import {NotificationManager,} from 'react-notifications';
 import {
     getAuthorsQuery,
     addAuthorMutation,
     deleteAuthorMutation,
     updateAuthorMutation
 } from '../queries/queries';
-import {NotificationManager,} from 'react-notifications';
+
+import {compare} from '../common'
 
 class AddAuthor extends Component {
     constructor(props) {
@@ -16,18 +18,13 @@ class AddAuthor extends Component {
             authorAge: '',
             authorId: "",
         };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.authorChange = this.authorChange.bind(this);
-        this.addAuthor = this.addAuthor.bind(this);
-        this.removeAuthor = this.removeAuthor.bind(this);
     }
 
-    handleChange(e) {
+    handleChange = (e) => {
         this.setState({[e.target.name]: e.target.value})
     }
 
-    authorChange(e) {
+    authorChange = (e) => {
         let data = this.props.getAuthorsQuery;
 
         this.setState({
@@ -37,33 +34,20 @@ class AddAuthor extends Component {
         });
     }
 
-    compare = (a, b) => {
-        const nameA = a.name.toUpperCase();
-        const nameB = b.name.toUpperCase();
-
-        let comparison = 0;
-        if (nameA > nameB) {
-            comparison = 1;
-        } else if (nameA < nameB) {
-            comparison = -1;
-        }
-        return comparison;
-    };
-
     displayAuthors() {
         let data = this.props.getAuthorsQuery;
         if (data.loading) {
             return (<option disabled>Loading authors</option>);
         } else {
             let myObject = Object.assign([], data.authors);
-            myObject.sort(this.compare);
+            myObject.sort(compare);
             return myObject.map(author => {
                 return (<option key={author.id} value={author.id}>{author.name}</option>);
             });
         }
     }
 
-    addAuthor(e) {
+    addAuthor = (e) => {
         let data = this.props.getAuthorsQuery;
         e.preventDefault();
         if (this.state.authorId === '') {
@@ -97,7 +81,7 @@ class AddAuthor extends Component {
         }
     }
 
-    removeAuthor(e) {
+    removeAuthor = (e) => {
         e.preventDefault();
         this.props.deleteAuthorMutation({
             variables: {
@@ -159,7 +143,6 @@ class AddAuthor extends Component {
                     onClick={this.removeAuthor}
                 >-
                 </button>
-
             </form>
         );
     }

@@ -33,7 +33,7 @@ body {
 
 #book-list li:hover {
     color: rgb(41, 5, 24);
-    box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.5);
+    box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.7);
 }
 
 #add-book {
